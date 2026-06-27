@@ -1,0 +1,26 @@
+<?php
+
+$dir = __DIR__;
+
+$controllers = [
+    'DashboardController' => "<?php\n\nnamespace App\\Http\\Controllers;\n\nuse Illuminate\\Http\\Request;\nuse App\\Models\\Income;\nuse App\\Models\\Expense;\nuse App\\Models\\Cash;\n\nclass DashboardController extends Controller\n{\n    public function index()\n    {\n        // \$totalIncome = Income::whereMonth('date', date('m'))->sum('nominal');\n        // \$totalExpense = Expense::whereMonth('date', date('m'))->sum('nominal');\n        // \$netProfit = \$totalIncome - \$totalExpense;\n        // return view('dashboard.index', compact('totalIncome', 'totalExpense', 'netProfit'));\n        return view('dashboard.index');\n    }\n}\n",
+    'IncomeController' => "<?php\n\nnamespace App\\Http\\Controllers;\n\nuse Illuminate\\Http\\Request;\nuse App\\Models\\Income;\n\nclass IncomeController extends Controller\n{\n    public function index() { return view('transactions.income.index'); }\n    public function create() { return view('transactions.income.create'); }\n    public function store(Request \$request) {}\n    public function edit(Income \$income) { return view('transactions.income.edit'); }\n    public function update(Request \$request, Income \$income) {}\n    public function destroy(Income \$income) {}\n}\n",
+    'ExpenseController' => "<?php\n\nnamespace App\\Http\\Controllers;\n\nuse Illuminate\\Http\\Request;\nuse App\\Models\\Expense;\n\nclass ExpenseController extends Controller\n{\n    public function index() { return view('transactions.expense.index'); }\n    public function create() { return view('transactions.expense.create'); }\n    public function store(Request \$request) {}\n    public function edit(Expense \$expense) { return view('transactions.expense.edit'); }\n    public function update(Request \$request, Expense \$expense) {}\n    public function destroy(Expense \$expense) {}\n}\n",
+    'DebtController' => "<?php\n\nnamespace App\\Http\\Controllers;\n\nuse Illuminate\\Http\\Request;\nuse App\\Models\\Debt;\n\nclass DebtController extends Controller\n{\n    public function index() { return view('transactions.debt.index'); }\n}\n",
+    'ReceivableController' => "<?php\n\nnamespace App\\Http\\Controllers;\n\nuse Illuminate\\Http\\Request;\nuse App\\Models\\Receivable;\n\nclass ReceivableController extends Controller\n{\n    public function index() { return view('transactions.receivable.index'); }\n}\n",
+    'CashController' => "<?php\n\nnamespace App\\Http\\Controllers;\n\nuse Illuminate\\Http\\Request;\nuse App\\Models\\Cash;\n\nclass CashController extends Controller\n{\n    public function index() { return view('transactions.cash.index'); }\n}\n",
+    'BankController' => "<?php\n\nnamespace App\\Http\\Controllers;\n\nuse Illuminate\\Http\\Request;\nuse App\\Models\\Bank;\n\nclass BankController extends Controller\n{\n    public function index() { return view('transactions.bank.index'); }\n}\n",
+    'ReportController' => "<?php\n\nnamespace App\\Http\\Controllers;\n\nuse Illuminate\\Http\\Request;\n\nclass ReportController extends Controller\n{\n    public function index() { return view('reports.index'); }\n}\n",
+    'CompanyController' => "<?php\n\nnamespace App\\Http\\Controllers;\n\nuse Illuminate\\Http\\Request;\nuse App\\Models\\Company;\n\nclass CompanyController extends Controller\n{\n    public function index() { return view('companies.index'); }\n}\n",
+    'UserController' => "<?php\n\nnamespace App\\Http\\Controllers;\n\nuse Illuminate\\Http\\Request;\nuse App\\Models\\User;\n\nclass UserController extends Controller\n{\n    public function index() { return view('users.index'); }\n}\n"
+];
+
+foreach($controllers as $name => $content) {
+    file_put_contents($dir . "/app/Http/Controllers/{$name}.php", $content);
+}
+
+$routes = "<?php\n\nuse Illuminate\\Support\\Facades\\Route;\nuse App\\Http\\Controllers\\DashboardController;\nuse App\\Http\\Controllers\\IncomeController;\nuse App\\Http\\Controllers\\ExpenseController;\nuse App\\Http\\Controllers\\DebtController;\nuse App\\Http\\Controllers\\ReceivableController;\nuse App\\Http\\Controllers\\CashController;\nuse App\\Http\\Controllers\\BankController;\nuse App\\Http\\Controllers\\ReportController;\nuse App\\Http\\Controllers\\CompanyController;\nuse App\\Http\\Controllers\\UserController;\n\nRoute::get('/', function () {\n    return redirect('/dashboard');\n});\n\nRoute::middleware(['auth'])->group(function () {\n    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');\n    Route::resource('incomes', IncomeController::class);\n    Route::resource('expenses', ExpenseController::class);\n    Route::resource('debts', DebtController::class);\n    Route::resource('receivables', ReceivableController::class);\n    Route::resource('cash', CashController::class);\n    Route::resource('banks', BankController::class);\n    Route::resource('reports', ReportController::class);\n    \n    Route::middleware(['role:Owner|Admin'])->group(function() {\n        Route::resource('company', CompanyController::class);\n    });\n    \n    Route::middleware(['role:Owner'])->group(function() {\n        Route::resource('users', UserController::class);\n    });\n});\n";
+
+file_put_contents($dir . "/routes/web.php", $routes);
+
+echo "Controllers and Routes created successfully.";
