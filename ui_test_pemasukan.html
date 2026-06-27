@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="id" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pemasukan Premium - Manajemen Pembukuan Usaha</title>
+    <!-- AdminLTE & Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@4.0.0/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Premium Custom UI */
+        body { 
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a; 
+            color: #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        
+        /* Sidebar Premium */
+        .app-sidebar {
+            background: rgba(15, 23, 42, 0.7) !important;
+            backdrop-filter: blur(12px);
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .brand-link { border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+        .nav-link.active {
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%) !important;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+            color: white !important;
+        }
+        .nav-link:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        /* Navbar Premium */
+        .app-header {
+            background: rgba(15, 23, 42, 0.8) !important;
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Card Premium */
+        .card {
+            background: #1e293b;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        .card-header { border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+        
+        /* Table Premium */
+        .table { color: #cbd5e1; }
+        .table-dark { --bs-table-bg: #0f172a; --bs-table-color: #fff; }
+        .table-bordered > :not(caption) > * > * { border-color: rgba(255,255,255,0.05); }
+        .table-striped > tbody > tr:nth-of-type(odd) > * {
+            background-color: rgba(255, 255, 255, 0.02);
+            color: #cbd5e1;
+        }
+        .table-striped > tbody > tr:hover > * {
+            background-color: rgba(99, 102, 241, 0.05);
+        }
+        
+        /* Button Premium */
+        .btn-primary {
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            padding: 8px 20px;
+            box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
+            transition: all 0.3s;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(99, 102, 241, 0.5);
+        }
+        
+        .btn-action {
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+        .btn-action:hover { transform: scale(1.1); }
+        
+        /* DataTables Custom */
+        div.dataTables_wrapper div.dataTables_filter input {
+            border-radius: 8px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            padding: 6px 12px;
+        }
+        div.dataTables_wrapper div.dataTables_filter input:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.25);
+        }
+        div.dataTables_wrapper div.dataTables_length select {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            border-radius: 8px;
+        }
+        .page-item.active .page-link {
+            background-color: #6366f1;
+            border-color: #6366f1;
+        }
+        .page-link {
+            background-color: transparent;
+            border-color: rgba(255,255,255,0.05);
+            color: #cbd5e1;
+        }
+        .page-link:hover {
+            background-color: rgba(255,255,255,0.05);
+            color: #fff;
+        }
+    </style>
+</head>
+<body class="layout-fixed sidebar-expand-lg">
+    <div class="app-wrapper">
+        <!-- Navbar -->
+        <nav class="app-header navbar navbar-expand">
+            <div class="container-fluid">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link text-white" data-lte-toggle="sidebar" href="#" role="button"><i class="bi bi-grid-fill"></i></a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="#"><i class="bi bi-bell-fill"></i></a>
+                    </li>
+                    <li class="nav-item d-flex align-items-center ms-3">
+                        <img src="https://ui-avatars.com/api/?name=Owner+UMKM&background=6366f1&color=fff" class="rounded-circle" width="35" alt="User">
+                        <span class="ms-2 text-white fw-medium">Owner UMKM</span>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        
+        <!-- Sidebar -->
+        <aside class="app-sidebar shadow-lg">
+            <div class="sidebar-brand text-center">
+                <a href="#" class="brand-link text-decoration-none">
+                    <span class="brand-text fw-bold text-white fs-4">FinTrack <span class="text-primary">•</span></span>
+                </a>
+            </div>
+            <div class="sidebar-wrapper mt-3">
+                <nav>
+                    <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
+                        <li class="nav-item px-2 mb-2">
+                            <a href="ui_test_dashboard.html" class="nav-link text-white">
+                                <i class="nav-icon bi bi-house-door-fill"></i>
+                                <p>Dashboard</p>
+                            </a>
+                        </li>
+                        <li class="nav-item px-2 mb-2">
+                            <a href="ui_test_pemasukan.html" class="nav-link active">
+                                <i class="nav-icon bi bi-wallet2"></i>
+                                <p>Data Pemasukan</p>
+                            </a>
+                        </li>
+                        <li class="nav-item px-2 mb-2">
+                            <a href="#" class="nav-link text-white">
+                                <i class="nav-icon bi bi-cart-dash-fill"></i>
+                                <p>Data Pengeluaran</p>
+                            </a>
+                        </li>
+                        <li class="nav-item px-2 mb-2">
+                            <a href="#" class="nav-link text-white">
+                                <i class="nav-icon bi bi-pie-chart-fill"></i>
+                                <p>Laporan Keuangan</p>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="app-main">
+            <div class="app-content-header pb-0">
+                <div class="container-fluid">
+                    <div class="row align-items-center">
+                        <div class="col-sm-6">
+                            <h3 class="mb-0 fw-bold fs-2 text-white mt-3 mb-4">Transaksi Pemasukan</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="app-content">
+                <div class="container-fluid">
+                    
+                    <div class="card p-2">
+                        <div class="card-header d-flex justify-content-between align-items-center border-0 pt-4 pb-3">
+                            <h3 class="card-title m-0 fw-semibold text-white">Data Master Pemasukan</h3>
+                            <button class="btn btn-primary ms-auto" onclick="showAddModal()">
+                                <i class="bi bi-plus-lg me-1"></i> Input Pemasukan Baru
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-bordered table-striped align-middle" id="incomeTable">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th class="py-3">No. Transaksi</th>
+                                        <th class="py-3">Tanggal</th>
+                                        <th class="py-3">Kategori</th>
+                                        <th class="py-3">Keterangan</th>
+                                        <th class="py-3 text-end">Nominal (Rp)</th>
+                                        <th class="py-3 text-center">Tindakan</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><span class="badge bg-secondary bg-opacity-25 text-secondary border border-secondary">IN-001</span></td>
+                                        <td>28 Jun 2026</td>
+                                        <td><span class="badge bg-success bg-opacity-25 text-success">Penjualan</span></td>
+                                        <td>Penjualan 10 Box Produk A</td>
+                                        <td class="text-end fw-semibold">5.000.000</td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-info text-white btn-action me-1"><i class="bi bi-pencil-square"></i></button>
+                                            <button class="btn btn-sm btn-danger btn-action" onclick="deleteData()"><i class="bi bi-trash3-fill"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="badge bg-secondary bg-opacity-25 text-secondary border border-secondary">IN-002</span></td>
+                                        <td>27 Jun 2026</td>
+                                        <td><span class="badge bg-primary bg-opacity-25 text-primary">Jasa</span></td>
+                                        <td>Jasa Konsultasi Marketing</td>
+                                        <td class="text-end fw-semibold">3.000.000</td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-info text-white btn-action me-1"><i class="bi bi-pencil-square"></i></button>
+                                            <button class="btn btn-sm btn-danger btn-action" onclick="deleteData()"><i class="bi bi-trash3-fill"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><span class="badge bg-secondary bg-opacity-25 text-secondary border border-secondary">IN-003</span></td>
+                                        <td>26 Jun 2026</td>
+                                        <td><span class="badge bg-warning bg-opacity-25 text-warning">Lainnya</span></td>
+                                        <td>Cashback E-commerce</td>
+                                        <td class="text-end fw-semibold">150.000</td>
+                                        <td class="text-center">
+                                            <button class="btn btn-sm btn-info text-white btn-action me-1"><i class="bi bi-pencil-square"></i></button>
+                                            <button class="btn btn-sm btn-danger btn-action" onclick="deleteData()"><i class="bi bi-trash3-fill"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/admin-lte@4.0.0/dist/js/adminlte.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $(document).ready(function() {
+            $('#incomeTable').DataTable({
+                "language": {
+                    "search": "Cari Transaksi:",
+                    "lengthMenu": "Tampilkan _MENU_ data",
+                    "info": "Menampilkan _START_ s/d _END_ dari _TOTAL_ data"
+                }
+            });
+        });
+
+        function showAddModal() {
+            Swal.fire({
+                title: 'Input Pemasukan Baru',
+                html: `
+                    <div class="mb-3 text-start">
+                        <label class="form-label text-muted fs-6">Nominal Pemasukan</label>
+                        <input id="swal-input1" class="form-control bg-dark border-secondary text-white" placeholder="Contoh: 1500000">
+                    </div>
+                    <div class="mb-3 text-start">
+                        <label class="form-label text-muted fs-6">Keterangan</label>
+                        <textarea id="swal-input2" class="form-control bg-dark border-secondary text-white" rows="3" placeholder="Deskripsi..."></textarea>
+                    </div>
+                `,
+                background: '#1e293b',
+                color: '#fff',
+                confirmButtonText: '<i class="bi bi-save me-1"></i> Simpan Transaksi',
+                confirmButtonColor: '#4f46e5',
+                showCancelButton: true,
+                cancelButtonText: 'Batal',
+                cancelButtonColor: '#ef4444',
+                focusConfirm: false,
+                customClass: {
+                    popup: 'border border-secondary rounded-4',
+                    confirmButton: 'rounded-3',
+                    cancelButton: 'rounded-3'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Tersimpan!',
+                        text: 'Transaksi berhasil dimasukkan ke sistem.',
+                        icon: 'success',
+                        background: '#1e293b',
+                        color: '#fff',
+                        confirmButtonColor: '#10b981'
+                    });
+                }
+            });
+        }
+
+        function deleteData() {
+            Swal.fire({
+                title: 'Hapus Transaksi?',
+                text: "Data keuangan akan terpengaruh!",
+                icon: 'warning',
+                background: '#1e293b',
+                color: '#fff',
+                showCancelButton: true,
+                confirmButtonColor: '#ef4444',
+                cancelButtonColor: '#64748b',
+                confirmButtonText: 'Ya, Hapus!',
+                cancelButtonText: 'Batal',
+                customClass: { popup: 'rounded-4' }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Terhapus!',
+                        text: 'Transaksi berhasil dihapus.',
+                        icon: 'success',
+                        background: '#1e293b',
+                        color: '#fff',
+                        confirmButtonColor: '#10b981'
+                    });
+                }
+            })
+        }
+    </script>
+</body>
+</html>
